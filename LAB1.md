@@ -1,4 +1,3 @@
-# Task 4.1: Exploring HTTP Messages
 
 **Student ID:** 22110038
 **Name:** Phan Triệu Huy 
