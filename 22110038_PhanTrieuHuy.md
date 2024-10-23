@@ -121,14 +121,17 @@ ouput file hashes.txt:
 
 **run cracked:**
  ./john --incremental hashes.txt
+ 
  ![image](https://github.com/user-attachments/assets/8df31ea1-e2c3-414e-845b-2d1a5467d4fe)
 
  ./john --show hashes.txt
+ 
 ![image](https://github.com/user-attachments/assets/dd3d5d41-a1ae-4b7e-b0c4-7b6965e6491f)
 
 so password is **bug**
 
 **result:**
+
 ![image](https://github.com/user-attachments/assets/04431e25-9745-4667-91ff-97d0c8b64040)
 
 ![image](https://github.com/user-attachments/assets/25a2de92-b972-4c00-a999-834c5609efe6)
