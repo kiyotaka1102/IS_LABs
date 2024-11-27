@@ -119,7 +119,26 @@ iptables -A INPUT -s 192.168.2.3 -p udp --dport 12345 -j DROP
 now pc2 cant ping to pc1:
 
 ![alt text](image-10.png)
-
+![alt text](image-11.png)
 
 # Task 2. Encrypting large message
 
+create samplefile.txt
+![alt text](image-12.png)
+
+**Question 1**:
+Encrypt the file with aes-cipher in CTR and OFB modes. How do you evaluate both cipher in terms of error propagation and adjacent plaintext blocks are concerned. 
+**Answer 1**:
+
+- install xxd:
+apt-get install xxd
+-  generate key:
+openssl enc -aes-128-ctr -in /tmp/samplefile.txt -out /tmp/encrypted_ctr.bin -K $(openssl rand -hex 16) -iv $(openssl rand -hex 16)
+
+- and on pc0: 
+nc -l -u -p 12345 > /tmp/encrypted_from_pc2.bin
+nc -l -u -p 12346 > /tmp/hmac_from_pc2.txt
+
+- on pc2:
+nc -u 192.168.1.2 12345 < /tmp/encrypted_ctr.bin
+nc -u 192.168.1.2 12346 < /tmp/hmac_ctr.txt
