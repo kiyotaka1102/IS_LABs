@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  router:
+    image: debian
+    container_name: router
+    cap_add:
+      - NET_ADMIN
+    privileged: true  # Grant extra privileges
+    networks:
+      subnet1:
+        ipv4_address: 192.168.1.10
+      subnet2:
+        ipv4_address: 192.168.2.10
+    command: >
+      sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward && 
+             sleep infinity"
+
+  pc0:
+    image: nginx
+    container_name: pc0
+    networks:
+      subnet1:
+        ipv4_address: 192.168.1.2
+    depends_on:
+      - router
+
+  pc1:
+    image: debian
+    container_name: pc1
+    cap_add:
+      - NET_ADMIN
+    networks:
+      subnet2:
+        ipv4_address: 192.168.2.2
+    command: >
+      sh -c "apt-get update && apt-get install -y curl iputils-ping && 
+             sleep infinity"
+
+  pc2:
+    image: debian
+    container_name: pc2
+    cap_add:
+      - NET_ADMIN
+    networks:
+      subnet2:
+        ipv4_address: 192.168.2.3
+    command: >
+      sh -c "apt-get update && apt-get install -y curl iputils-ping && 
+             sleep infinity"
+
+networks:
+  subnet1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+  subnet2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.2.0/24
